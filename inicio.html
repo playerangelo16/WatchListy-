@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WatchListy 📺 - Lista Otaku</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #6a1b9a;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2em;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 30px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #8e24aa;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 15px;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #6a1b9a;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      background: #eee;
+      padding: 10px;
+      margin: 10px 0;
+      font-size: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-radius: 4px;
+    }
+
+    @media (max-width: 600px) {
+      li {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      li button {
+        margin-top: 10px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>WatchListy 📺</h1>
+    <p>Marque quais animes assistiu ou quer assistir</p>
+    <p>Instagram: <span style="color: yellow;">@versari_3d_anime</span></p>
+  </header>
+
+  <main>
+    <div class="container">
+      <input id="animeInput" type="text" placeholder="Digite o nome do anime" aria-label="Nome do anime">
+      <button onclick="adicionarAnime()">Adicionar</button>
+      <ul id="listaAnimes"></ul>
+    </div>
+  </main>
+
+  <footer style="text-align:center; margin: 20px; color: #888;">
+    &copy; 2025 WatchListy - Todos os direitos reservados.
+  </footer>
+
+  <script>
+    const lista = document.getElementById("listaAnimes");
+    const input = document.getElementById("animeInput");
+    let animes = JSON.parse(localStorage.getItem("animes")) || [];
+
+    function renderizarLista() {
+      lista.innerHTML = "";
+      animes.forEach((anime, index) => {
+        const li = document.createElement("li");
+        li.innerHTML = `
+          <span>${anime}</span>
+          <button onclick="removerAnime(${index})">Remover</button>
+        `;
+        lista.appendChild(li);
+      });
+    }
+
+    function adicionarAnime() {
+      const nome = input.value.trim();
+      if (nome === "") return;
+
+      if (animes.includes(nome)) {
+        alert("Esse anime já está na lista.");
+        return;
+      }
+
+      animes.push(nome);
+      input.value = "";
+      salvarLista();
+      renderizarLista();
+    }
+
+    function removerAnime(index) {
+      animes.splice(index, 1);
+      salvarLista();
+      renderizarLista();
+    }
+
+    function salvarLista() {
+      localStorage.setItem("animes", JSON.stringify(animes));
+    }
+
+    renderizarLista();
+  </script>
+
+</body>
+
+</html>
