@@ -94,8 +94,8 @@
 <body>
 
   <header>
-    <h1>WatchListy 📺</h1>
-    <p>Marque quais animes assistiu ou quer assistir</p>
+    <h1>WatchList 📺</h1>
+    <p>Já colocou na lista? Marca aí: Anime, Série, Filme ou Desenho.</p>
 
     <p><span><a href="https://www.instagram.com/versari_tecnologia/" style="color: yellow">@versari_tecnologia</a></span></p>
   </header>
@@ -104,6 +104,7 @@
     <div class="container">
       <input id="animeInput" type="text" placeholder="Digite o nome do anime" aria-label="Nome do anime">
       <button onclick="adicionarAnime()">Adicionar</button>
+      <button onclick="removerTodosAnimes()">Remover todos</button>
       <ul id="listaAnimes"></ul>
     </div>
   </main>
@@ -121,10 +122,10 @@
       lista.innerHTML = "";
       animes.forEach((anime, index) => {
         const li = document.createElement("li");
-        li.innerHTML = `
-          <span>${anime}</span>
-          <button onclick="removerAnime(${index})">Remover</button>
-        `;
+         li.innerHTML = `
+         <span>${anime}</span>
+         <button onclick="removerAnime(${index})">Remover</button>
+         `;
         lista.appendChild(li);
       });
     }
@@ -145,7 +146,13 @@
     }
 
     function removerAnime(index) {
-      animes.splice(index, 1);
+       animes.splice(index, 1);
+       salvarLista();
+       renderizarLista();
+    }
+
+    function removerTodosAnimes() {
+      animes = [];
       salvarLista();
       renderizarLista();
     }
